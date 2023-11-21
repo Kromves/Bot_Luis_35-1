@@ -1,7 +1,6 @@
-.env
-/.env
-.env/
 venv
 .idea
-__pycache__/
+__pycache__
+.env
 db.sqlite3
+media

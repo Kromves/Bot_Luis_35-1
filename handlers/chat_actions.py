@@ -16,10 +16,10 @@ async def chat_messages(message: types.Message):
         ban_word_predict_prob = predict_prob([message.text])
         if ban_word_predict_prob > 0.1:
             await message.delete()
-            await bot.delete_message(
-                chat_id=message.chat.id,
-                message_id=message.message_id
-            )
+            # await bot.delete_message(
+            #     chat_id=message.chat.id,
+            #     message_id=message.message_id
+            # )
             user = db.sql_select_ban_user(
                 telegram_id=message.from_user.id
             )

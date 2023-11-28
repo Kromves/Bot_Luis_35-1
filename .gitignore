@@ -1,6 +1,10 @@
+return.sqlite3
+gf.sqlite3
+/.env
+.env/
 venv
 .idea
-__pycache__
-.env
+__pycache__/
 db.sqlite3
 media
+./media

@@ -18,6 +18,7 @@ class Database:
         self.connection.execute(sql_queries.CREATE_LIKE_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REFERRAL_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REFERRAL_USERS_TABLE_QUERY)
+        self.connection.execute(sql_queries.CREATE_ASYNC_MOD_QUERY)
         try:
             self.connection.execute(sql_queries.ALTER_USER_TABLE)
             self.connection.execute(sql_queries.ALTER_USER_V2_TABLE)
@@ -174,6 +175,8 @@ class Database:
         self.connection.commit()
 
 
+
+
     def sql_insert_referral_users(self, owner, common_users, user_name, first_name):
         self.cursor.execute(
             sql_queries.INSERT_REFERRAL_USERS_QUERY,
@@ -193,3 +196,10 @@ class Database:
             sql_queries.SELECT_REFERRAL_USERS_QUERY,
             (owner,)
         ).fetchall()
+
+    def sql_insert_mods(self, link):
+        self.cursor.execute(
+            sql_queries.INSERT_ASYNC_MODS,
+            (None, link)
+        )
+        self.connection.commit()

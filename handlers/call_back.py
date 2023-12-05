@@ -4,7 +4,8 @@ from aiogram import types, Dispatcher
 from config import bot, ADMIN_ID
 from database.sql_commands import Database
 from keyboards.inline_buttons import questionnaire_keyboard
-
+from scraping.my_scraping import LisScraper
+from scraping.async_news import AsyncNewsScraper
 
 async def start_questionnaire_call(call: types.CallbackQuery):
     await bot.send_message(
@@ -44,6 +45,17 @@ async def admin_call(message: types.Message):
         )
 
 
+async def lis_scraper_call(call: types.CallbackQuery):
+    scraper = LisScraper()
+    data = scraper.lis_parse_data()
+    for url in data[:4]:
+        await bot.send_message(
+            chat_id=call.from_user.id,
+            text=url
+        )
+
+
+
 def register_callback_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_questionnaire_call,
                                        lambda call: call.data == "start_questionnaire")
@@ -53,3 +65,6 @@ def register_callback_handlers(dp: Dispatcher):
                                        lambda call: call.data == "mojo")
     dp.register_message_handler(admin_call,
                                 lambda word: "dorei" in word.text)
+    dp.register_callback_query_handler(lis_scraper_call,
+                                       lambda call: call.data == "news"
+                                       )

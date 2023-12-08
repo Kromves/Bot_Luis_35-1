@@ -27,12 +27,17 @@ async def start_keyboard():
         "Latest News",
         callback_data="news"
     )
+    # async_news_button = InlineKeyboardButton(
+    #     "async news",
+    #     callback_data="async_news!"
+    # )
     markup.add(questionnaire_button)
     markup.add(registration_button)
     markup.add(my_profile_button)
     markup.add(random_profiles_button)
     markup.add(reference_menu_button)
     markup.add(news_button)
+    # markup.add(async_news_button)
     return markup
 
 

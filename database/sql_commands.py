@@ -5,7 +5,7 @@ from database import sql_queries
 
 class Database:
     def __init__(self):
-        self.connection = sqlite3.connect("db.sqlite3")
+        self.connection = sqlite3.connect("ds.sqlite3")
         self.cursor = self.connection.cursor()
 
     def sql_create_tables(self):
@@ -18,7 +18,7 @@ class Database:
         self.connection.execute(sql_queries.CREATE_LIKE_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REFERRAL_TABLE_QUERY)
         self.connection.execute(sql_queries.CREATE_REFERRAL_USERS_TABLE_QUERY)
-        self.connection.execute(sql_queries.CREATE_ASYNC_MOD_QUERY)
+        self.connection.execute(sql_queries.CREATE_TABLE_ASYNC)
         try:
             self.connection.execute(sql_queries.ALTER_USER_TABLE)
             self.connection.execute(sql_queries.ALTER_USER_V2_TABLE)
@@ -197,9 +197,9 @@ class Database:
             (owner,)
         ).fetchall()
 
-    def sql_insert_mods(self, link):
+    def sql_insert_service_commands(self, link):
         self.cursor.execute(
-            sql_queries.INSERT_ASYNC_MODS,
+            sql_queries.INSERT_ASYNC,
             (None, link)
         )
         self.connection.commit()

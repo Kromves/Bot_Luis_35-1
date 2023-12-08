@@ -5,8 +5,8 @@ from config import bot, ADMIN_ID
 from database.sql_commands import Database
 from keyboards.inline_buttons import questionnaire_keyboard
 from scraping.my_scraping import LisScraper
-from scraping.async_news import AsyncNewsScraper
-
+# from scraping.async_news import AsyncNewsScraper
+import re
 async def start_questionnaire_call(call: types.CallbackQuery):
     await bot.send_message(
         chat_id=call.from_user.id,
@@ -55,6 +55,12 @@ async def lis_scraper_call(call: types.CallbackQuery):
         )
 
 
+async def save_service_call(call: types.CallbackQuery):
+    link = re.search(r'(https?://\S+)', call.message.text)
+    if link:
+        Database().sql_insert_service_commands(link=link.group(0))
+
+    await bot.send_message(chat_id=call.from_user.id, text='You saved the link')
 
 def register_callback_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_questionnaire_call,

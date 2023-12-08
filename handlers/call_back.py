@@ -4,7 +4,7 @@ from aiogram import types, Dispatcher
 from config import bot, ADMIN_ID
 from database.sql_commands import Database
 from keyboards.inline_buttons import questionnaire_keyboard
-from scraping.my_scraping import LisScraper
+# from scraping.my_scraping import LisScraper
 # from scraping.async_news import AsyncNewsScraper
 import re
 async def start_questionnaire_call(call: types.CallbackQuery):
@@ -45,22 +45,15 @@ async def admin_call(message: types.Message):
         )
 
 
-async def lis_scraper_call(call: types.CallbackQuery):
-    scraper = LisScraper()
-    data = scraper.lis_parse_data()
-    for url in data[:4]:
-        await bot.send_message(
-            chat_id=call.from_user.id,
-            text=url
-        )
+# async def lis_scraper_call(call: types.CallbackQuery):
+#     scraper = LisScraper()
+#     data = scraper.lis_parse_data()
+#     for url in data[:4]:
+#         await bot.send_message(
+#             chat_id=call.from_user.id,
+#             text=url
+#         )
 
-
-async def save_service_call(call: types.CallbackQuery):
-    link = re.search(r'(https?://\S+)', call.message.text)
-    if link:
-        Database().sql_insert_service_commands(link=link.group(0))
-
-    await bot.send_message(chat_id=call.from_user.id, text='You saved the link')
 
 def register_callback_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_questionnaire_call,
@@ -71,6 +64,6 @@ def register_callback_handlers(dp: Dispatcher):
                                        lambda call: call.data == "mojo")
     dp.register_message_handler(admin_call,
                                 lambda word: "dorei" in word.text)
-    dp.register_callback_query_handler(lis_scraper_call,
-                                       lambda call: call.data == "news"
-                                       )
+    # dp.register_callback_query_handler(lis_scraper_call,
+    #                                    lambda call: call.data == "news"
+    #                                    )
